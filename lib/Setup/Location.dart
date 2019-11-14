@@ -4,6 +4,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 
 class LocationPage extends StatefulWidget {
@@ -40,8 +41,10 @@ class _LocationPageState extends State<LocationPage> {
   }
 
 
+
   @override
   Widget build(BuildContext context) {
+    GoogleMapController mapController;
     return Scaffold(
       body: GoogleMap(
         myLocationEnabled: true,

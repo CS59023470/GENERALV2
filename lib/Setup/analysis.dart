@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 import 'dart:ui';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -48,9 +49,33 @@ class _MyAppState extends State<MyApp> {
   double _imageWidth;
   bool _busy = false;
   String _userId;
+  String longitude='nothing yet';
+  String latitude='nothing yet';
 
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  void getMyLocationData() async {
+    var currentLocation = LocationData;
+
+    var location = new Location();
+
+// Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      var location = new Location();
+      var currentLocation = await location.getLocation();
+    } on PlatformException catch (e) {
+      if (e.code == 'PERMISSION_DENIED') {
+        // error = 'Permission denied';
+      }
+      currentLocation = null;
+    }
+    location.onLocationChanged().listen((LocationData currentLocation) {
+      print(currentLocation.longitude);
+      longitude = currentLocation.longitude.toString();
+      latitude = currentLocation.latitude.toString();
+    });
+  }
 
 
   Future predictImagePicker() async {
@@ -79,19 +104,27 @@ class _MyAppState extends State<MyApp> {
 
     var downUrl = await (await uploadTask.onComplete).ref.getDownloadURL();
     var url = downUrl.toString();
+
+
     FirebaseDatabase.instance.reference().child('UserHistory').child(
         '$_userId')
         .child(_getDateNow()).set({
       'Date': _getDateNow(),
       'Url_Picture' : '$url',
       'Score' : _recognitions,
+      'latitude' : '$longitude',
+      'longtitude' : '$latitude',
     });
     FirebaseDatabase.instance.reference().child('UserHistory').child(_getDateNow()).set({
       'UID' : '$_userId',
       'Date': _getDateNow(),
       'Url_Picture' : '$url',
       'Score' : _recognitions,
+      'latitude' : '$longitude',
+      'longtitude' : '$latitude',
     });
+    Firestore.instance.collection('latlng').document()
+        .setData({'latitude' : '$latitude', 'longtitude' : '$longitude'});
   }
 
   Future uploadPic2(BuildContext context) async {
@@ -200,6 +233,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    this.getMyLocationData();
     _busy = true;
 
     loadModel().then((val) {
@@ -495,7 +529,8 @@ class _MyAppState extends State<MyApp> {
           children: _recognitions != null
               ? _recognitions.map((res) {
             return Text(
-              "${res["index"]} - ${res["label"]}: ${res["confidence"].toStringAsFixed(3)}",
+              //${res["index"]} - อยู่หน้า label
+              "${res["label"]}: ${res["confidence"].toStringAsFixed(3)}",
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 20.0,
@@ -520,6 +555,8 @@ class _MyAppState extends State<MyApp> {
       ));
       stackChildren.add(const Center(child: CircularProgressIndicator()));
     }
+
+
 
     return Scaffold(
       appBar: AppBar(

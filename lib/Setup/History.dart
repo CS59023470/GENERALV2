@@ -40,6 +40,7 @@ class _HisAnaState extends State<HisAna> {
     itemRef.onChildAdded.listen(_onEntryAdded);
   }
 
+
   _onEntryAdded(Event event) {
     setState(() {
       items.add(Item.fromSnapshot(event.snapshot));
@@ -104,7 +105,7 @@ class _HisAnaState extends State<HisAna> {
                                 children: <Widget>[
                                   new Text('    รายละเอียด    ',style: TextStyle(fontSize: 16.0),),
                                   new SizedBox(height: 15.0,),
-                                  new Text('คะแนน'),
+                                  new Text('เกรด'),
                                   new SizedBox(height: 15.0,),
                                   new Text('ความแม่นยำ'),
                                   new SizedBox(height: 15.0,),
@@ -113,9 +114,8 @@ class _HisAnaState extends State<HisAna> {
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: <Widget>[
-//                                  new Text(items[index].value1),
-//                                  new SizedBox(height: 15.0,),
-//                                  Text(items[index].value1,
+
+//                                  new Text(items[index].value1,
 //                                    style: TextStyle(fontSize: 16.0),),
 //                                  new SizedBox(height: 15.0,),
 //                                  Text(items[index].value2,

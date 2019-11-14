@@ -4,6 +4,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mass/Setup/HomeV2.dart';
 import 'package:mass/Setup/SignUp.dart';
 import 'package:mass/Setup/home.dart';
+import 'package:mass/lol.dart';
 
 import 'ForGot.dart';
 
@@ -208,13 +209,13 @@ class _LoginPageV2State extends State<LoginPageV2> {
   }
 
 //  void signIn() async {
-//    final formState = _formKey.currentState;
-//    if(formState.validate()){
-//      formState.save();
+//    if(_formKey.currentState.validate()){
+//      _formKey.currentState.save();
 //      try{
-//        FirebaseUser user = (await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password)) as FirebaseUser;
-//        Navigator.push(context, MaterialPageRoute(builder: (context) => HomeV2(user: user)));
+//        FirebaseUser user = await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password) as FirebaseUser;
+//        Navigator.push(context, MaterialPageRoute(builder: (context) => LOL(user: user)));
 //      }catch(e){
+//        print(e.message);
 //      }
 //    }
 //  }
@@ -223,7 +224,7 @@ class _LoginPageV2State extends State<LoginPageV2> {
     if(_formKey.currentState.validate()){
       _formKey.currentState.save();
       try{
-        await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password);
+       await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password);
         Navigator.push(context, MaterialPageRoute(builder: (context) => HomeV2()));
 
       }catch(e){

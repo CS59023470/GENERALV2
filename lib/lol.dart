@@ -3,34 +3,30 @@ import 'package:flutter/material.dart';
 import 'package:mass/Setup/HisForExpert.dart';
 import 'package:mass/Setup/History.dart';
 import 'package:mass/Setup/Location.dart';
-import 'package:mass/Setup/SelectFunction.dart';
 import 'package:mass/Setup/SignIn.dart';
 import 'package:mass/Setup/analysis.dart';
 
-class HomeV2 extends StatefulWidget {
+class LOL extends StatelessWidget {
+  const LOL({
+    Key key,
+    @required this.user
+  }) : super(key: key);
+  final FirebaseUser user;
 
-  @override
-  _HomeV2State createState() => _HomeV2State();
-}
-
-class _HomeV2State extends State<HomeV2> {
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  String email;
   @override
   Widget build(BuildContext context) {
+    final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
     return Scaffold(
       backgroundColor: Color(0xFFEBE4D6),
- //     appBar: new AppBar(
- //       backgroundColor: Color(0xFFEBE4D6),
- //       title: new Center(child: new Text('',textAlign: TextAlign.center,style: TextStyle(fontSize: 50),)),
- //     ),
+      appBar: new AppBar(
+        backgroundColor: Color(0xFFEBE4D6),
+        title: new Center(child: new Text('',textAlign: TextAlign.center,style: TextStyle(fontSize: 50),)),
+      ),
       body: new ListView(children: <Widget>[
         new Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            SizedBox(
-              height: 50.0,
-            ),
+
             new Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
@@ -51,11 +47,11 @@ class _HomeV2State extends State<HomeV2> {
               children: <Widget>[
                 Function5(teks: "ออกจากระบบ"),
 //                Function6(teks: "ให้คะแนนแอป"),
-                ],
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
+      ],
       ),
     );
   }
@@ -141,7 +137,7 @@ class Function3 extends StatelessWidget{ //class สร้างfunction
       child: GestureDetector(
         onTap: () {
           Navigator.push(context, MaterialPageRoute(
-             builder: (context) => HisAna()
+              builder: (context) => HisAna()
           )); //MaterialPageRoute
         },
         child: new Column(
@@ -212,7 +208,7 @@ class Function5 extends StatelessWidget{ //class สร้างfunction
         },
         child: new Column(
           children: <Widget>[
-            new Image.asset('assets/logout.png',width: 100.0,height: 100.0,fit: BoxFit.cover,),
+            new Image.asset('assets/logout.png',width: 125.0,height: 125.0,fit: BoxFit.cover,),
             new Text(teks, style: new TextStyle(fontSize: 20.0,color: Colors.black54),),
             new Padding(padding: new EdgeInsets.all(0.0),),
           ],
@@ -224,3 +220,4 @@ class Function5 extends StatelessWidget{ //class สร้างfunction
     _firebaseAuth.signOut();
   }
 }
+
